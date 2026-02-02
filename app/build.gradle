@@ -17,10 +17,20 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file(project.hasProperty('signingKeystore') ? project.property('signingKeystore') : "release.keystore")
+            storePassword project.hasProperty('signingKeystorePassword') ? project.property('signingKeystorePassword') : ""
+            keyAlias project.hasProperty('signingKeyAlias') ? project.property('signingKeyAlias') : ""
+            keyPassword project.hasProperty('signingKeyPassword') ? project.property('signingKeyPassword') : ""
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         debug {
             applicationIdSuffix '.debug'
